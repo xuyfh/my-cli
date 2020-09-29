@@ -1,0 +1,9 @@
+$background: green;
+
+body {
+  background: $background;
+
+  img {
+    transform: rotate(45deg);
+  }
+}
