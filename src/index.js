@@ -1,5 +1,5 @@
 // import './index.css';
-// // import './a.scss';
+// import './a.scss';
 
 // // 获取当前打包logo.jepg 后的路径
 // import logo from './timg.jpeg';
@@ -33,9 +33,10 @@
 
 // a();
 
-// import React from 'react';
-// import ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
+ReactDOM.render(11111, document.getElementById('root')) // ????
 // // ts 校验类型
 // interface IProps {
 //   num: number
@@ -57,10 +58,18 @@
 
 // ReactDOM.render(<Counter />, document.getElementById('root'));
 
-import Vue from 'vue';
-import App from './App.vue';
+// import Vue from 'vue';
+// import App from './App.vue';
 
-let vm = new Vue({
-    el: "#root",
-    render: h => h(App)
-});
+// let vm = new Vue({
+//     el: "#root",
+//     render: h => h(App)
+// });
+
+// import $ from 'jquery';
+// console.log($);
+
+// import { add } from './calc';
+
+// console.log(add(2,3));
+

@@ -1,0 +1,7 @@
+body {
+  background: green;
+}
+
+body img {
+  transform: rotate(45deg);
+}

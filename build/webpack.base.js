@@ -6,11 +6,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const AddAssetHtmlCdnPlugin = require('add-asset-html-cdn-webpack-plugin');
+const DllReferencePlugin = require('webpack').DllReferencePlugin;
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 module.exports = (env) => { // env 是环境变量
   const isDev = env.development;
   const base = {
-    entry: path.resolve(__dirname, '../src/index.ts'),
+    entry: path.resolve(__dirname, '../src/index.js'),
     module: {
       // 解析css的时候 就不能渲染dom
       // css 可以并行和 js 一同加载 mini-css-extract-plugin
@@ -66,16 +69,17 @@ module.exports = (env) => { // env 是环境变量
         }
       ]
     },
+    externals: {
+      'jquery': '$' // 不去打包代码中的jquery
+    },
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, '../dist')
     },
+    optimization: {
+      usedExports: true // 告诉我们使用了哪个模块
+    },
     plugins: [
-      !isDev && new MiniCssExtractPlugin({
-        filename: 'css/main.css'
-      }),
-      new CleanWebpackPlugin(), // **/* 意思是所有目录下的所有文件
-      new VueLoaderPlugin(),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, '../public/index.html'),
         filename: 'index.html',
@@ -83,6 +87,21 @@ module.exports = (env) => { // env 是环境变量
           removeAttributeQuotes: true, // 去除双引号
           collapseWhitespace: true // 将 html 压缩成一行
         }
+      }),
+      !isDev && new MiniCssExtractPlugin({
+        filename: 'css/main.css'
+      }),
+      new CleanWebpackPlugin(), // **/* 意思是所有目录下的所有文件
+      new VueLoaderPlugin(),
+      // new AddAssetHtmlCdnPlugin(true, {
+      //   jquery: '//cdn.bootcss.com/jquery/3.4.1/jquery.min.js'
+      // }) // 有问题
+      // 打包的时候会配置 clean-webpack-plugin 会清空dist 所以不放在dist下面， 而是放在dll下面
+      new DllReferencePlugin({
+        manifest: path.resolve(__dirname, '../dll/manifest.json')
+      }),
+      new AddAssetHtmlWebpackPlugin({
+        filepath: path.resolve(__dirname, '../dll/react.dll.js')
       })
     ].filter(Boolean)
   }
