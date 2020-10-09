@@ -13,7 +13,12 @@ const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 module.exports = (env) => { // env 是环境变量
   const isDev = env.development;
   const base = {
-    entry: path.resolve(__dirname, '../src/index.js'),
+    // entry 有三种写法 字符串 数组 对象
+    entry: {
+      "a": "./src/a.js",
+      "b": "./src/b.js"
+    },
+    // entry: path.resolve(__dirname, '../src/index.js'),
     module: {
       // 解析css的时候 就不能渲染dom
       // css 可以并行和 js 一同加载 mini-css-extract-plugin
@@ -73,7 +78,7 @@ module.exports = (env) => { // env 是环境变量
       'jquery': '$' // 不去打包代码中的jquery
     },
     output: {
-      filename: 'bundle.js',
+      filename: '[name].js',
       path: path.resolve(__dirname, '../dist')
     },
     optimization: {
@@ -86,7 +91,18 @@ module.exports = (env) => { // env 是环境变量
         minify: !isDev && { // 生产环境压缩
           removeAttributeQuotes: true, // 去除双引号
           collapseWhitespace: true // 将 html 压缩成一行
-        }
+        },
+        chunks: ['a']
+      }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, '../public/index.html'),
+        filename: 'login.html',
+        minify: !isDev && { // 生产环境压缩
+          removeAttributeQuotes: true, // 去除双引号
+          collapseWhitespace: true // 将 html 压缩成一行
+        },
+        chunksSortMode: 'manual', // 手动按照我的顺序来执行
+        chunks: ['b', 'a'] // 打包的顺序 按照我自己排列的
       }),
       !isDev && new MiniCssExtractPlugin({
         filename: 'css/main.css'

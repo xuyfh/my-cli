@@ -1,3 +1,6 @@
+// 实现多入口
+
+
 // import './index.css';
 // import './a.scss';
 
@@ -33,10 +36,10 @@
 
 // a();
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
 
-ReactDOM.render(11111, document.getElementById('root')) // ????
+// ReactDOM.render(<h1>123</h1>, document.getElementById('root'));
 // // ts 校验类型
 // interface IProps {
 //   num: number

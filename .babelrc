@@ -1,14 +1,11 @@
 {
   "presets": [
+    "@babel/preset-react",
     ["@babel/preset-env", {
       // 使用的api会自动转化，并且是按需加载
       "useBuiltIns": "usage",
       // babel-polyfill
       "corejs": 2
-    }],
-    "@babel/preset-react",
-    ["@babel/preset-typescript", {
-      "allExtensions": true
     }]
   ],
   "plugins": [
